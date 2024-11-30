@@ -1,56 +1,49 @@
-/**
- * Program IDL in camelCase format in order to be used in JS/TS.
- *
- * Note that this is only a type helper and is not the actual IDL. The original
- * IDL can be found at `target/idl/solvium.json`.
- */
 export type Solvium = {
-  "address": "Cheg7SgQmMGzNwBfGL7jWCVjRaVQityvRfjLsqzTAkV2",
-  "metadata": {
-    "name": "solvium",
-    "version": "0.1.0",
-    "spec": "0.1.0",
-    "description": "Created with Anchor"
-  },
+  "version": "0.1.0",
+  "name": "solvium",
   "instructions": [
     {
       "name": "initializeResearch",
-      "discriminator": [
-        234,
-        95,
-        26,
-        42,
-        43,
-        5,
-        175,
-        75
-      ],
       "accounts": [
         {
           "name": "research",
-          "writable": true,
-          "signer": true
+          "isMut": true,
+          "isSigner": true
         },
         {
           "name": "mint",
-          "writable": true
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
         },
         {
           "name": "authority",
-          "writable": true,
-          "signer": true
+          "isMut": true,
+          "isSigner": true
         },
         {
           "name": "tokenProgram",
-          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
         },
         {
           "name": "systemProgram",
-          "address": "11111111111111111111111111111111"
+          "isMut": false,
+          "isSigner": false
         },
         {
           "name": "rent",
-          "address": "SysvarRent111111111111111111111111111111111"
+          "isMut": false,
+          "isSigner": false
         }
       ],
       "args": [
@@ -77,12 +70,6 @@ export type Solvium = {
           "type": "string"
         },
         {
-          "name": "subfields",
-          "type": {
-            "vec": "string"
-          }
-        },
-        {
           "name": "keywords",
           "type": {
             "vec": "string"
@@ -97,110 +84,15 @@ export type Solvium = {
         {
           "name": "version",
           "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "updateMetadata",
-      "discriminator": [
-        170,
-        182,
-        43,
-        239,
-        97,
-        78,
-        225,
-        186
-      ],
-      "accounts": [
-        {
-          "name": "research",
-          "writable": true
         },
         {
-          "name": "authority",
-          "signer": true,
-          "relations": [
-            "research"
-          ]
-        }
-      ],
-      "args": [
-        {
-          "name": "fieldName",
+          "name": "tokenSymbol",
           "type": "string"
-        },
-        {
-          "name": "newValue",
-          "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "updateStatus",
-      "discriminator": [
-        147,
-        215,
-        74,
-        174,
-        55,
-        191,
-        42,
-        0
-      ],
-      "accounts": [
-        {
-          "name": "research",
-          "writable": true
-        },
-        {
-          "name": "authority",
-          "signer": true,
-          "relations": [
-            "research"
-          ]
-        }
-      ],
-      "args": [
-        {
-          "name": "newStatus",
-          "type": {
-            "defined": {
-              "name": "researchStatus"
-            }
-          }
         }
       ]
     }
   ],
   "accounts": [
-    {
-      "name": "research",
-      "discriminator": [
-        116,
-        214,
-        122,
-        13,
-        126,
-        152,
-        168,
-        123
-      ]
-    }
-  ],
-  "errors": [
-    {
-      "code": 6000,
-      "name": "invalidField",
-      "msg": "Invalid field name provided"
-    },
-    {
-      "code": 6001,
-      "name": "unauthorized",
-      "msg": "Unauthorized access"
-    }
-  ],
-  "types": [
     {
       "name": "research",
       "type": {
@@ -229,12 +121,6 @@ export type Solvium = {
             "type": "string"
           },
           {
-            "name": "subfields",
-            "type": {
-              "vec": "string"
-            }
-          },
-          {
             "name": "keywords",
             "type": {
               "vec": "string"
@@ -243,9 +129,7 @@ export type Solvium = {
           {
             "name": "status",
             "type": {
-              "defined": {
-                "name": "researchStatus"
-              }
+              "defined": "ResearchStatus"
             }
           },
           {
@@ -259,12 +143,6 @@ export type Solvium = {
             }
           },
           {
-            "name": "methodology",
-            "type": {
-              "vec": "string"
-            }
-          },
-          {
             "name": "version",
             "type": "string"
           },
@@ -274,11 +152,39 @@ export type Solvium = {
           },
           {
             "name": "authority",
-            "type": "pubkey"
+            "type": "publicKey"
           },
           {
             "name": "mint",
-            "type": "pubkey"
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenSymbol",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "tokenPrice",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "methodology",
+            "type": {
+              "option": {
+                "vec": "string"
+              }
+            }
+          },
+          {
+            "name": "subfields",
+            "type": {
+              "option": {
+                "vec": "string"
+              }
+            }
           },
           {
             "name": "publicationDoi",
@@ -336,26 +242,312 @@ export type Solvium = {
           }
         ]
       }
-    },
+    }
+  ],
+  "types": [
     {
-      "name": "researchStatus",
+      "name": "ResearchStatus",
       "type": {
         "kind": "enum",
         "variants": [
           {
-            "name": "ongoing"
+            "name": "Ongoing"
           },
           {
-            "name": "completed"
+            "name": "Completed"
           },
           {
-            "name": "peerReview"
+            "name": "PeerReview"
           },
           {
-            "name": "published"
+            "name": "Published"
           }
         ]
       }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "SymbolTooLong",
+      "msg": "Symbol must be 10 characters or less"
+    }
+  ]
+};
+
+export const IDL: Solvium = {
+  "version": "0.1.0",
+  "name": "solvium",
+  "instructions": [
+    {
+      "name": "initializeResearch",
+      "accounts": [
+        {
+          "name": "research",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "abstractText",
+          "type": "string"
+        },
+        {
+          "name": "researchers",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "institution",
+          "type": "string"
+        },
+        {
+          "name": "field",
+          "type": "string"
+        },
+        {
+          "name": "keywords",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "methodology",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "version",
+          "type": "string"
+        },
+        {
+          "name": "tokenSymbol",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "research",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "name": "abstractText",
+            "type": "string"
+          },
+          {
+            "name": "researchers",
+            "type": {
+              "vec": "string"
+            }
+          },
+          {
+            "name": "institution",
+            "type": "string"
+          },
+          {
+            "name": "field",
+            "type": "string"
+          },
+          {
+            "name": "keywords",
+            "type": {
+              "vec": "string"
+            }
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "ResearchStatus"
+            }
+          },
+          {
+            "name": "startDate",
+            "type": "i64"
+          },
+          {
+            "name": "completionDate",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "version",
+            "type": "string"
+          },
+          {
+            "name": "lastUpdated",
+            "type": "i64"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "mint",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenSymbol",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "tokenPrice",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "methodology",
+            "type": {
+              "option": {
+                "vec": "string"
+              }
+            }
+          },
+          {
+            "name": "subfields",
+            "type": {
+              "option": {
+                "vec": "string"
+              }
+            }
+          },
+          {
+            "name": "publicationDoi",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "citationCount",
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "impactFactor",
+            "type": {
+              "option": "f64"
+            }
+          },
+          {
+            "name": "fundingSource",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "grantAmount",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "grantId",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "datasetLocation",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "datasetSize",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "datasetFormat",
+            "type": {
+              "option": "string"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "ResearchStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Ongoing"
+          },
+          {
+            "name": "Completed"
+          },
+          {
+            "name": "PeerReview"
+          },
+          {
+            "name": "Published"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "SymbolTooLong",
+      "msg": "Symbol must be 10 characters or less"
     }
   ]
 };

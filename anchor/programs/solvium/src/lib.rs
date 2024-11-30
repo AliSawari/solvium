@@ -18,6 +18,7 @@ pub mod solvium {
         keywords: Vec<String>,
         methodology: Vec<String>,
         version: String,
+        publication_doi: String
     ) -> Result<()> {
         let research = &mut ctx.accounts.research;
         let clock: Clock = Clock::get().unwrap();
@@ -36,6 +37,7 @@ pub mod solvium {
         research.last_updated = clock.unix_timestamp;
         research.authority = ctx.accounts.authority.key();
         research.mint = ctx.accounts.mint.key();
+        research.publication_doi = publication_doi;
 
         Ok(())
     }
@@ -110,7 +112,7 @@ pub struct Research {
     pub mint: Pubkey,                 // 32
 
     // Optional fields
-    pub publication_doi: Option<String>,  // 100
+    pub publication_doi: String,  // 100
     pub citation_count: Option<u32>,      // 4
     pub impact_factor: Option<f64>,       // 8
     pub funding_source: Option<String>,   // 200

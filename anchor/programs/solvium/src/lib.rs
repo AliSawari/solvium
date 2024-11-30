@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token::{Mint, Token};
+use anchor_spl::token::Token;
 
 declare_id!("Cheg7SgQmMGzNwBfGL7jWCVjRaVQityvRfjLsqzTAkV2");
 

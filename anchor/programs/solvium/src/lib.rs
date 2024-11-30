@@ -1,11 +1,15 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::Token;
+use utils::{lamports_to_sol, sol_to_lamports, LAMPORTS_PER_SOL};
+
+// Custom Utility functions
+mod utils;
 
 declare_id!("Cheg7SgQmMGzNwBfGL7jWCVjRaVQityvRfjLsqzTAkV2");
 
 #[program]
 pub mod solvium {
-    use super::*;
+    use super::*; 
 
     pub fn initialize_research(
         ctx: Context<InitializeResearch>,
@@ -17,7 +21,7 @@ pub mod solvium {
         subfields: Vec<String>,
         keywords: Vec<String>,
         methodology: Vec<String>,
-        version: String,
+        // version: String,
         publication_doi: String
     ) -> Result<()> {
         let research = &mut ctx.accounts.research;
@@ -33,7 +37,7 @@ pub mod solvium {
         research.status = ResearchStatus::Ongoing;
         research.start_date = clock.unix_timestamp;
         research.methodology = methodology;
-        research.version = version;
+        // research.version = version;
         research.last_updated = clock.unix_timestamp;
         research.authority = ctx.accounts.authority.key();
         research.mint = ctx.accounts.mint.key();
@@ -55,7 +59,7 @@ pub mod solvium {
             "abstract" => research.abstract_text = new_value,
             "institution" => research.institution = new_value,
             "field" => research.field = new_value,
-            "version" => research.version = new_value,
+            "version" => research.version = Some(new_value),
             _ => return Err(ErrorCode::InvalidField.into()),
         }
 
@@ -106,7 +110,7 @@ pub struct Research {
     pub start_date: i64,              // 8
     pub completion_date: Option<i64>, // 9
     pub methodology: Vec<String>,     // 500
-    pub version: String,              // 20
+    // pub version: String,              // 20
     pub last_updated: i64,            // 8
     pub authority: Pubkey,            // 32
     pub mint: Pubkey,                 // 32
@@ -121,6 +125,7 @@ pub struct Research {
     pub dataset_location: Option<String>, // 200
     pub dataset_size: Option<String>,     // 50
     pub dataset_format: Option<String>,   // 50
+    pub version: Option<String>,    
 }
 
 #[derive(Accounts)]
@@ -140,11 +145,12 @@ pub struct InitializeResearch<'info> {
                 8 + // start_date
                 9 + // completion_date
                 500 + // methodology
-                20 + // version
+                // 20 + // version
                 8 + // last_updated
                 32 + // authority
                 32 + // mint
-                1000, // additional space for optional fields
+                1000 + // additional space for optional fields
+                100 // publication DOI
     )]
     pub research: Account<'info, Research>,
 

@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{Mint, Token};
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("Cheg7SgQmMGzNwBfGL7jWCVjRaVQityvRfjLsqzTAkV2");
 
 #[program]
 pub mod solvium {
@@ -146,8 +146,9 @@ pub struct InitializeResearch<'info> {
     )]
     pub research: Account<'info, Research>,
 
+    /// CHECK: We're just reading the mint account
     #[account(mut)]
-    pub mint: Account<'info, Mint>,
+    pub mint: AccountInfo<'info>,
 
     #[account(mut)]
     pub authority: Signer<'info>,

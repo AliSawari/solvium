@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-solvium = "DLw5fJNrrBCWoy75aukoDApBZm4MEvaWCvPJoqtLSg1p"
+solvium = "Cheg7SgQmMGzNwBfGL7jWCVjRaVQityvRfjLsqzTAkV2"
 
 [registry]
 url = "https://api.apr.dev"

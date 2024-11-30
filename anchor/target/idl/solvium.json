@@ -1,5 +1,5 @@
 {
-  "address": "DLw5fJNrrBCWoy75aukoDApBZm4MEvaWCvPJoqtLSg1p",
+  "address": "Cheg7SgQmMGzNwBfGL7jWCVjRaVQityvRfjLsqzTAkV2",
   "metadata": {
     "name": "solvium",
     "version": "0.1.0",
@@ -8,150 +8,345 @@
   },
   "instructions": [
     {
-      "name": "close",
+      "name": "initialize_research",
       "discriminator": [
-        98,
-        165,
-        201,
-        177,
-        108,
-        65,
-        206,
-        96
+        234,
+        95,
+        26,
+        42,
+        43,
+        5,
+        175,
+        75
       ],
       "accounts": [
         {
-          "name": "payer",
+          "name": "research",
           "writable": true,
           "signer": true
         },
         {
-          "name": "solvium",
+          "name": "mint",
           "writable": true
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "decrement",
-      "discriminator": [
-        106,
-        227,
-        168,
-        59,
-        248,
-        27,
-        150,
-        101
-      ],
-      "accounts": [
+        },
         {
-          "name": "solvium",
-          "writable": true
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "increment",
-      "discriminator": [
-        11,
-        18,
-        104,
-        9,
-        104,
-        174,
-        59,
-        33
-      ],
-      "accounts": [
-        {
-          "name": "solvium",
-          "writable": true
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "initialize",
-      "discriminator": [
-        175,
-        175,
-        109,
-        31,
-        13,
-        152,
-        155,
-        237
-      ],
-      "accounts": [
-        {
-          "name": "payer",
+          "name": "authority",
           "writable": true,
           "signer": true
         },
         {
-          "name": "solvium",
-          "writable": true,
-          "signer": true
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
         },
         {
           "name": "system_program",
           "address": "11111111111111111111111111111111"
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "set",
-      "discriminator": [
-        198,
-        51,
-        53,
-        241,
-        116,
-        29,
-        126,
-        194
-      ],
-      "accounts": [
+        },
         {
-          "name": "solvium",
-          "writable": true
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
         }
       ],
       "args": [
         {
-          "name": "value",
-          "type": "u8"
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "abstract_text",
+          "type": "string"
+        },
+        {
+          "name": "researchers",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "institution",
+          "type": "string"
+        },
+        {
+          "name": "field",
+          "type": "string"
+        },
+        {
+          "name": "subfields",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "keywords",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "methodology",
+          "type": {
+            "vec": "string"
+          }
+        },
+        {
+          "name": "version",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "update_metadata",
+      "discriminator": [
+        170,
+        182,
+        43,
+        239,
+        97,
+        78,
+        225,
+        186
+      ],
+      "accounts": [
+        {
+          "name": "research",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true,
+          "relations": [
+            "research"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "field_name",
+          "type": "string"
+        },
+        {
+          "name": "new_value",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "update_status",
+      "discriminator": [
+        147,
+        215,
+        74,
+        174,
+        55,
+        191,
+        42,
+        0
+      ],
+      "accounts": [
+        {
+          "name": "research",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true,
+          "relations": [
+            "research"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "new_status",
+          "type": {
+            "defined": {
+              "name": "ResearchStatus"
+            }
+          }
         }
       ]
     }
   ],
   "accounts": [
     {
-      "name": "Solvium",
+      "name": "Research",
       "discriminator": [
-        255,
-        176,
-        4,
-        245,
-        188,
-        253,
-        124,
-        25
+        116,
+        214,
+        122,
+        13,
+        126,
+        152,
+        168,
+        123
       ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidField",
+      "msg": "Invalid field name provided"
+    },
+    {
+      "code": 6001,
+      "name": "Unauthorized",
+      "msg": "Unauthorized access"
     }
   ],
   "types": [
     {
-      "name": "Solvium",
+      "name": "Research",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "count",
-            "type": "u8"
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "name": "abstract_text",
+            "type": "string"
+          },
+          {
+            "name": "researchers",
+            "type": {
+              "vec": "string"
+            }
+          },
+          {
+            "name": "institution",
+            "type": "string"
+          },
+          {
+            "name": "field",
+            "type": "string"
+          },
+          {
+            "name": "subfields",
+            "type": {
+              "vec": "string"
+            }
+          },
+          {
+            "name": "keywords",
+            "type": {
+              "vec": "string"
+            }
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "ResearchStatus"
+              }
+            }
+          },
+          {
+            "name": "start_date",
+            "type": "i64"
+          },
+          {
+            "name": "completion_date",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "methodology",
+            "type": {
+              "vec": "string"
+            }
+          },
+          {
+            "name": "version",
+            "type": "string"
+          },
+          {
+            "name": "last_updated",
+            "type": "i64"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "publication_doi",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "citation_count",
+            "type": {
+              "option": "u32"
+            }
+          },
+          {
+            "name": "impact_factor",
+            "type": {
+              "option": "f64"
+            }
+          },
+          {
+            "name": "funding_source",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "grant_amount",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "grant_id",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "dataset_location",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "dataset_size",
+            "type": {
+              "option": "string"
+            }
+          },
+          {
+            "name": "dataset_format",
+            "type": {
+              "option": "string"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ResearchStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Ongoing"
+          },
+          {
+            "name": "Completed"
+          },
+          {
+            "name": "PeerReview"
+          },
+          {
+            "name": "Published"
           }
         ]
       }

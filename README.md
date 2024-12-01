@@ -1,52 +1,137 @@
-# React + TypeScript + Vite
+# Solvium - Scientific Research Funding DApp
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A decentralized application (DApp) built on Solana blockchain for revolutionizing scientific research funding through blockchain technology. This project connects researchers with investors, creating a transparent and efficient ecosystem for advancing scientific discoveries.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Wallet Integration**: Seamless connection with Solana wallets (Phantom, Solflare)
+- **Token Management**: Direct SOL to RSCH token conversion
+- **Real-time Transactions**: Live transaction tracking and confirmation
+- **Responsive Design**: Mobile-first approach using Tailwind CSS
+- **Multi-cluster Support**: Support for different Solana clusters (Mainnet, Testnet, Devnet)
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- React 18.3
+- TypeScript
+- Vite
+- Tailwind CSS
+- Solana Web3.js
+- Wallet Adapter
+- Anchor Framework
+- DaisyUI
+- React Query
+- React Router
 
-- Configure the top-level `parserOptions` property like this:
+## Prerequisites
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+Before you begin, ensure you have installed:
+
+- Node.js (v16 or higher)
+- pnpm (v9.7.0 or higher)
+- Solana CLI tools
+- Anchor Framework
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone [repository-url]
+cd solvium
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+2. Install dependencies:
+```bash
+pnpm install
 ```
 
-# template-react-vite-tailwind
+3. Create a local environment file:
+```bash
+cp .env.example .env.local
+```
+
+## Development
+
+Start the development server:
+
+```bash
+pnpm dev
+```
+
+The application will be available at `http://localhost:5173`
+
+### Building the Project
+
+To create a production build:
+
+```bash
+pnpm build
+```
+
+### Testing
+
+Run the test suite:
+
+```bash
+pnpm anchor-test
+```
+
+## Project Structure
+
+```
+src/
+├── app/                # Application core components
+├── components/         # Reusable UI components
+│   ├── account/       # Account management
+│   ├── cluster/       # Cluster configuration
+│   ├── solana/        # Solana integration
+│   └── ui/            # Common UI elements
+├── anchor/            # Solana program files
+└── assets/           # Static assets
+```
+
+## Configuration
+
+### Solana Network Configuration
+
+The application supports multiple Solana clusters:
+- Mainnet Beta
+- Testnet
+- Devnet
+- Local Network
+
+Configure your preferred network in the UI using the cluster selector.
+
+### Wallet Configuration
+
+The application supports multiple wallet providers:
+- Phantom
+- Solflare
+
+Additional wallet providers can be added in `WalletProvider.tsx`.
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Security
+
+This project is an experimental DApp. Use at your own risk. Always verify transactions before signing.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Solana Foundation
+- Anchor Framework Team
+- Create Solana DApp
+
+## Support
+
+For support, please open an issue in the GitHub repository or contact the development team.

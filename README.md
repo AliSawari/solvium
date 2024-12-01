@@ -12,19 +12,20 @@ A decentralized application (DApp) built on Solana blockchain for revolutionizin
 
 ## Tech Stack
 
-- React 18.3
-- TypeScript
+- React 18
+- TypeScript 5.5.3
 - Vite
 - Tailwind CSS
-- Solana Web3.js
+- Solana Web3.js 1.95.3
 - Wallet Adapter
-- Anchor Framework
+- Anchor Framework 0.29.0
+- Rustup 1.27.1   (with Solana toolchain)  
 - DaisyUI
-- lucide-react
+- lucide react 
 
 ## Prerequisites
 
-Before you begin, ensure you have installed:
+Before you begin, ensure you have installed: 
 
 - Node.js (v18 or higher)
 - pnpm (you can choose to use Yarn or npm as well)
@@ -32,6 +33,7 @@ Before you begin, ensure you have installed:
 - Anchor Framework ("0.29.0")
 
 ## Installation
+
 
 1. Clone the repository:
 ```bash
@@ -64,6 +66,8 @@ pnpm build
 
 
 ### Building the Rust code 
+
+before that make sure you have Rustup, Solana toolchain and anchor-cli installed with correct version number
 
 you can build the anchor app with the following commands
 

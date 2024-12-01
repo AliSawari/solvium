@@ -20,24 +20,22 @@ A decentralized application (DApp) built on Solana blockchain for revolutionizin
 - Wallet Adapter
 - Anchor Framework
 - DaisyUI
-- React Query
-- React Router
+- lucide-react
 
 ## Prerequisites
 
 Before you begin, ensure you have installed:
 
-- Node.js (v16 or higher)
-- pnpm (v9.7.0 or higher)
+- Node.js (v18 or higher)
+- pnpm (you can choose to use Yarn or npm as well)
 - Solana CLI tools
-- Anchor Framework
+- Anchor Framework ("0.29.0")
 
 ## Installation
 
 1. Clone the repository:
 ```bash
 git clone [repository-url]
-cd solvium
 ```
 
 2. Install dependencies:
@@ -45,14 +43,10 @@ cd solvium
 pnpm install
 ```
 
-3. Create a local environment file:
-```bash
-cp .env.example .env.local
-```
 
 ## Development
 
-Start the development server:
+Start the Frontend development server:
 
 ```bash
 pnpm dev
@@ -68,13 +62,57 @@ To create a production build:
 pnpm build
 ```
 
-### Testing
 
-Run the test suite:
+### Building the Rust code 
+
+you can build the anchor app with the following commands
+
 
 ```bash
-pnpm anchor-test
+cd anchor/
+anchor build
 ```
+
+when the build succeeds, make sure you have a wallet installed in your solana path `~/.config/solana/id.json`
+and the run 
+```bash
+anchor deploy
+```
+
+to deploy the newly built Anchor app to the Solana network.
+
+
+### Using the TypeScript Utility Scripts 
+
+you can find the TS scripts in the path `./anchor/src/`
+
+Wallet requirements: Make sure you have `wba-wallet.json`, `user_wallet.json` and `my_devnet_wallet.json` in the same path
+
+**Initialize Research**
+
+Creates a new Research on the Solana network by calling the `initialize()` method on the 
+Solvium Anchor app
+
+`pnpx tsx initialize_research.ts`
+
+
+**Invest Tokens**
+
+Establishes an Invest Mechanism by a 2 way Transaction. The user pays with SOL and receives RSCH tokens
+
+`pnpx tsx invest_tokens.ts`
+
+
+**Mint With Metadata**
+
+mints a new MSCH token with extra metadata related to `Research` interface. (WIP) 
+
+NOTE: Needs to be implemented with IPFS for saving offchain data.
+
+`pnpx tsx mint_with_metadata.ts`
+
+> Tip: You can use npx instead of pnpx
+
 
 ## Project Structure
 

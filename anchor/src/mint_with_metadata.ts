@@ -7,14 +7,18 @@ import {
     CreateMetadataAccountV3InstructionArgs,
     PROGRAM_ID as TOKEN_METADATA_PROGRAM_ID,
     createCreateMetadataAccountV3Instruction,
-    DataV2
+    DataV2,
+    Collection
 } from '@metaplex-foundation/mpl-token-metadata';
 import my_wallet from './my_devnet_wallet.json';
 import {ResearchProgramT} from './research';
+import { createEnhancedMetadata , ExtendedMetadata } from './mint_with_metadata_enhanced';
+
 
 export async function createTokenWithMetadata(
     metadata: ResearchProgramT,
-    amount: number = 1000000000
+    amount: number = 1000000000,
+    destination: web3.Keypair
 ) {
     // Connect to devnet instead of localhost
     const connection = new web3.Connection(web3.clusterApiUrl('devnet'), 'confirmed');
@@ -91,6 +95,33 @@ export async function createTokenWithMetadata(
             TOKEN_METADATA_PROGRAM_ID
         );
 
+
+        // const meme_image = "https://www.boredpanda.com/blog/wp-content/uploads/2021/06/science-memes-33-60da0d70dab3e__700.jpg"
+
+
+        // const enhancedMetadata = {
+        //     title: "Research Token (RSCH)",
+        //     summary: "Token for research program participation",
+        //     field: "Technology",
+        //     institutions: "MIT",
+        //     keywords: "AI, Blockchain, Research",
+        //     description: "A detailed token representing research contributions",
+        //     externalUrl: "https://github.com/AliSawari/solvium",
+        //     image: meme_image,
+        //     attributes: [
+        //         {
+        //             trait_type: "Research Phase",
+        //             value: "Active"
+        //         },
+        //         {
+        //             trait_type: "Peer Review Status",
+        //             value: "Completed"
+        //         }
+        //     ]
+        // };
+
+        // const metadataData = await createEnhancedMetadata(enhancedMetadata, wallet.publicKey)
+
         const metadataData: DataV2 = {
             name: metadata.title,
             symbol: metadata.title.split("(")[1]?.split(")")[0] || "RSCH",
@@ -100,6 +131,7 @@ export async function createTokenWithMetadata(
             collection: null,
             uses: null
         };
+
 
         const createMetadataInstruction = createCreateMetadataAccountV3Instruction(
             {
@@ -158,7 +190,7 @@ export async function createTokenWithMetadata(
         const mintTx = new web3.Transaction().add(
             token.createMintToInstruction(
                 mintKeypair.publicKey,
-                tokenATA,
+                destination.publicKey,
                 wallet.publicKey,
                 amount,
                 []
@@ -168,7 +200,7 @@ export async function createTokenWithMetadata(
         const mintSig = await web3.sendAndConfirmTransaction(
             connection,
             mintTx,
-            [wallet],
+            [wallet, destination],
             { commitment: 'confirmed' }
         );
 
@@ -187,19 +219,20 @@ export async function createTokenWithMetadata(
     }
 }
 
-async function main() {
-    const tokenMetadata: ResearchProgramT = {
-        title: "Research Token (RSCH)",
-        summary: "Token for research program participation",
-        field: "Tech",
-        institutions: "MIT",
-        keywords: "AI"
-    };
+// async function main() {
+//     const tokenMetadata: ResearchProgramT = {
+//         title: "Research Token (RSCH)",
+//         summary: "Token for research program participation",
+//         field: "Tech",
+//         institutions: "MIT",
+//         keywords: "AI"
+//     };
 
-    const res = await createTokenWithMetadata(tokenMetadata);
+//     const res = await createTokenWithMetadata(tokenMetadata);
 
-    console.log("RES", res);
+//     console.log("RES", res);
+//     console.log("RES JSON", JSON.stringify(res));
 
-}
+// }
 
-main();
+// main();

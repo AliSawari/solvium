@@ -2,6 +2,8 @@ use anchor_lang::prelude::*;
 
 declare_id!("Cheg7SgQmMGzNwBfGL7jWCVjRaVQityvRfjLsqzTAkV2");
 
+mod utils;
+
 #[program]
 pub mod research_program {
     use super::*;

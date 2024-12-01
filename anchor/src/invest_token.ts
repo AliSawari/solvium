@@ -12,6 +12,10 @@ import {
 import my_wallet from './my_devnet_wallet.json';
 import { ResearchProgramT } from './research';
 
+export const TOKEN_PER_SOL = 1000000;
+export const MINIMUM = 0.0001;
+export const MAXIMUM = 10;
+
 interface InvestmentConfig {
     tokenPerSol: number;
     minInvestment: number;
@@ -39,9 +43,9 @@ export class ResearchTokenInvestment {
         this.connection = new web3.Connection(web3.clusterApiUrl('devnet'), 'confirmed');
         this.projectWallet = web3.Keypair.fromSecretKey(new Uint8Array(my_wallet));
         this.config = {
-            tokenPerSol: 1000000,
-            minInvestment: 0.0001,
-            maxInvestment: 10,
+            tokenPerSol: TOKEN_PER_SOL,
+            minInvestment: MINIMUM,
+            maxInvestment: MAXIMUM,
             platformFeePercent: 2.5
         };
     }

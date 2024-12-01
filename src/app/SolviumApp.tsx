@@ -14,16 +14,17 @@ const SolviumApp = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const { wallets, wallet, signTransaction} = useWallet();
+  const [tx, setTx] = useState<any>();
+  const { wallets, wallet, signTransaction } = useWallet();
 
   const handleConnect = () => {
     console.log('does it even work?')
-      setIsConnected(true);
-      setError('');
+    setIsConnected(true);
+    setError('');
   };
 
   const handleInvest = async () => {
-    
+
     if (!wallet) {
       setError('Please connect your wallet first');
       return;
@@ -34,23 +35,28 @@ const SolviumApp = () => {
       return setError('Please enter a valid amount');
     }
 
-    if(solAmount > MAXIMUM){
-      return setError(`Amount is more than Maximum =  ${MAXIMUM}`);
+    if (solAmount > MAXIMUM) {
+      setError(`Amount is more than Maximum =  ${MAXIMUM}`);
+      return;
     }
 
 
-    if(solAmount < MINIMUM){
-      return setError(`Amount is less than Minimum = ${MINIMUM}`);
+    if (solAmount < MINIMUM) {
+      setError(`Amount is less than Minimum = ${MINIMUM}`);
+      return;
     }
 
     setLoading(true);
     setError('');
     setSuccess('');
 
+    // return
+
     try {
       const investment_manager = new ResearchTokenInvestment();
       const invest_result = await investment_manager.invest(wallet.adapter.publicKey, signTransaction, solAmount)
       console.log(invest_result);
+      setTx(invest_result);
       // Simulate investment process
       await new Promise(resolve => setTimeout(resolve, 2000));
       setSuccess(`Successfully invested ${solAmount} SOL and received ${solAmount * TOKEN_PER_SOL} RSCH tokens!`);
@@ -84,16 +90,15 @@ const SolviumApp = () => {
           <CardContent className="space-y-6">
             {/* Wallet Connection */}
             <div className="flex justify-center flex-col text-center content-center">
-           
-               <div className='text-center content-center'>
-               <WalletButton></WalletButton>
-               </div>
-                <span className="text-pretty text-center my-4 font-bold text-lg">
-                  1 SOL = {TOKEN_PER_SOL} RSCH Token
-                </span>
-                {/* <Wallet className="h-4 w-4" /> */}
-                {/* {isConnected ? 'Wallet Connected' : 'Connect Wallet'} */}
-         
+
+              <div className='text-center content-center'>
+                <WalletButton></WalletButton>
+              </div>
+              <span className="text-pretty text-center my-4 font-bold text-lg">
+                1 SOL = {TOKEN_PER_SOL} RSCH Token
+              </span>
+
+
             </div>
 
             {wallets.length && (
@@ -135,12 +140,21 @@ const SolviumApp = () => {
             )}
 
             {success && (
-              <Alert className="bg-green-50 border-green-200">
-                <CheckCircle2 className="h-4 w-4 text-green-600" />
-                <AlertTitle className="text-green-800">Success!</AlertTitle>
-                <AlertDescription className="text-green-700">{success}</AlertDescription>
-              </Alert>
+              <>
+                <Alert className="bg-green-50 border-green-200">
+                  <CheckCircle2 className="h-4 w-4 text-green-600" />
+                  <AlertTitle className="text-green-800">Success!</AlertTitle>
+                  <AlertDescription className="text-green-700">{success}</AlertDescription>
+                </Alert>
+                {
+                  tx && <div className="text-pretty text-center font-bold" style={{ lineBreak: 'anywhere' }}>
+                    <p>TXID: {tx.mintSignature}</p>
+                    <p>fee paid: {tx.fee}</p>
+                  </div>
+                }
+              </>
             )}
+
           </CardContent>
           <CardFooter className="text-sm text-gray-500 text-center">
             Join us in revolutionizing scientific research funding through blockchain technology.
